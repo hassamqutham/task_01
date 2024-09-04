@@ -1,6 +1,6 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
 const app = express();
 const PORT = 3000;
 
@@ -8,30 +8,13 @@ const PORT = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Simulated database
-const users = [
-  { username: 'user', password: '############' } 
-];
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
-// Route to display the login form
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-// Route to handle login form submission
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  const user = users.find(u => u.username === username);
-
-  if (user) {
-    const match = await bcrypt.compare(password, user.password);
-    if (match) {
-      return res.send('Login successful!');
-    }
-  }
-  res.send('Invalid username or password.');
-});
+// Use routes
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
 
 // Error-handling middleware
 app.use((err, req, res, next) => {
