@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userroutes');
 
 // Use routes
 app.use('/auth', authRoutes);
